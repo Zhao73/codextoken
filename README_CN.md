@@ -1,55 +1,104 @@
-# CodexToken
+<p align="center">
+  <img src="docs/images/banner.png" width="600" />
+</p>
 
-一个 macOS 菜单栏工具，用于本地管理多个 [Codex CLI](https://github.com/openai/codex) 账号。切换活跃会话、监控额度、打开隔离的 Terminal 环境——无需云端同步。
+<h1 align="center">CodexToken</h1>
 
-[English](README.md)
+<p align="center">
+  <strong>Codex CLI 的多账号管理器。</strong><br>
+  切换账号。监控额度。启动隔离会话。都在菜单栏完成。
+</p>
 
-<p>
-  <img src="https://img.shields.io/badge/平台-macOS_14+-111?style=flat&logo=apple&logoColor=white" />
-  <img src="https://img.shields.io/badge/Swift-6.0-F05138?style=flat&logo=swift&logoColor=white" />
-  <img src="https://img.shields.io/badge/协议-MIT-blue?style=flat" />
+<p align="center">
+  <a href="#安装"><img src="https://img.shields.io/badge/-安装-28a745?style=for-the-badge&logoColor=white" /></a>
+  <a href="#功能"><img src="https://img.shields.io/badge/-功能-0366d6?style=for-the-badge&logoColor=white" /></a>
+  <a href="#架构"><img src="https://img.shields.io/badge/-架构-6f42c1?style=for-the-badge&logoColor=white" /></a>
+  <a href="README.md"><img src="https://img.shields.io/badge/-English-e36209?style=for-the-badge&logoColor=white" /></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/平台-macOS_14+-111?style=flat-square&logo=apple&logoColor=white" />
+  <img src="https://img.shields.io/badge/Swift-6.0-F05138?style=flat-square&logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/依赖-0-brightgreen?style=flat-square" />
+  <img src="https://img.shields.io/github/license/Zhao73/codextoken?style=flat-square&color=blue" />
+  <img src="https://img.shields.io/github/stars/Zhao73/codextoken?style=flat-square" />
 </p>
 
 <!--
-<p>
+<p align="center">
   <img src="docs/screenshots/menu.png" width="380" />
+  &nbsp;&nbsp;
   <img src="docs/screenshots/settings.png" width="380" />
 </p>
 -->
 
-## 为什么做这个
+---
 
-如果你在用多个 OpenAI / Codex 账号（个人、工作、测试 Key…），你一定体会过那个烦：手动编辑 `~/.codex/auth.json`、搞不清当前激活的是哪个账号、没办法并排比较额度。CodexToken 解决的就是这些问题。
+## 痛点
+
+你有多个 OpenAI / Codex 账号——个人的、工作的、测试 Key。每次切换都要手动改 `~/.codex/auth.json`，搞不清当前激活的是哪个账号，没法对比额度，还怕覆盖错 token。
+
+**CodexToken 一键解决。**
+
+---
 
 ## 功能
 
-| 功能 | 说明 |
-|------|------|
-| **自动发现** | 扫描 `~/.codex/accounts/*.json` 和当前 `auth.json`；按 `account_id` 合并重复项；从 JWT claims 提取邮箱和登录方式 |
-| **一键切换** | 把选中的快照复制到 `auth.json`，通过 `codex login status` 验证，失败时自动回滚 |
-| **隔离 Terminal 启动** | 为每个账号打开独立的 Terminal 窗口，拥有自己的 `CODEX_HOME`，可以同时运行多个 Codex 会话 |
-| **额度监控** | 组合式 Provider 链：Codex App Server → 实验性 Shell 命令 → 本地状态兜底；显示 5 小时和每周窗口及置信度 |
-| **会话快照** | 把当前 `auth.json` 导入为命名快照；删除或隐藏不再需要的账号 |
-| **Siri 快捷指令** | 三个 AppIntent：保存会话、打开 `.codex` 文件夹、定位 `auth.json` |
-| **账号元数据** | 自定义显示名、备注、排序——存储在独立的本地 JSON 文件中 |
-| **双语** | 完整的 English & 简体中文界面，运行时切换语言（无需重启） |
-| **零依赖** | 纯 Swift 6 + SwiftUI + AppKit，没有第三方包 |
+<table>
+<tr>
+<td width="50%">
+
+### 🔍 自动发现
+自动扫描 `~/.codex/accounts/` 和 `auth.json`。按 `account_id` 合并重复项。从 JWT claims 提取邮箱和登录方式——零配置。
+
+### ⚡ 一键切换
+选中账号，点击切换。CodexToken 把快照复制到 `auth.json`，通过 `codex login status` 验证，失败时 **自动回滚**。
+
+### 📊 额度监控
+组合式 Provider 链：Codex App Server → 自定义 Shell 命令 → 本地兜底。显示 5 小时和每周窗口及置信度。
+
+### 🏷️ 账号元数据
+自定义显示名、备注、拖拽排序。存在独立的本地 JSON 里——完全不碰你的 auth 文件。
+
+</td>
+<td width="50%">
+
+### 🖥️ 隔离 Terminal 会话
+"打开 CLI"会创建独立的 Terminal 窗口，拥有自己的 `CODEX_HOME`。**同时运行多个 Codex 实例**，各自用不同的账号。
+
+### 📸 会话快照
+把当前 `auth.json` 保存为命名快照。删除或隐藏不需要的账号。支持从登录流程导入。
+
+### 🗣️ Siri 快捷指令
+三个 AppIntent：保存会话、打开 `.codex` 文件夹、定位 `auth.json`。支持快捷指令 App 和语音。
+
+### 🌐 双语界面
+完整的 English & 简体中文 UI，运行时即时切换——无需重启。
+
+</td>
+</tr>
+</table>
+
+---
 
 ## 安装
 
-### 从源码构建
+> **环境要求：** macOS 14+，[XcodeGen](https://github.com/yonaskolb/XcodeGen) 2.38+，Xcode（Swift 6）
 
 ```bash
-brew install xcodegen          # 只需一次
+# 安装 XcodeGen（一次性）
+brew install xcodegen
+
+# 克隆 & 构建
 git clone https://github.com/Zhao73/codextoken.git
 cd codextoken
 xcodegen generate
-open CodexToken.xcodeproj      # ⌘R 编译运行
+open CodexToken.xcodeproj
+# ⌘R → 应用出现在菜单栏（无 Dock 图标）
 ```
 
-应用出现在菜单栏（无 Dock 图标 — `LSUIElement = YES`）。
-
-### 运行测试
+<details>
+<summary><strong>运行测试</strong></summary>
 
 ```bash
 xcodebuild test \
@@ -57,68 +106,111 @@ xcodebuild test \
   -scheme CodexTokenCore \
   -destination 'platform=macOS'
 ```
+</details>
+
+---
+
+## 工作原理
+
+```
+┌─────────────────┐     ┌──────────────────────────┐
+│    菜单栏         │────▶│  AccountDiscoveryService  │
+│  CodexToken ⌘   │     │  扫描 ~/.codex/accounts/  │
+└────────┬────────┘     │  解析 JWT claims          │
+         │              └──────────────────────────┘
+         │
+         ├── 切换 ──▶ CLISwitchService
+         │            ├─ 备份 auth.json
+         │            ├─ 写入新 token
+         │            ├─ 验证 (codex login status)
+         │            └─ 失败自动回滚 ↩
+         │
+         ├── 打开 CLI ──▶ CLIProfilePreparationService
+         │                ├─ 创建隔离的 CODEX_HOME
+         │                └─ 启动 Terminal + 环境变量
+         │
+         └── 额度 ──▶ CompositeQuotaProvider
+                      ├─ CodexAppServerQuotaProvider (HTTPS)
+                      ├─ ExperimentalQuotaProvider (Shell 命令)
+                      └─ LocalStateQuotaProvider (兜底)
+```
+
+### 数据文件
+
+所有数据都在本机 `~/.codex/` 下——**不会离开你的电脑**。
+
+| 文件 | 归属 | 内容 |
+|:-----|:-----|:-----|
+| `auth.json` | Codex CLI | 当前会话 token |
+| `accounts/*.json` | CodexToken | 保存的会话快照 |
+| `codex-token-metadata.json` | CodexToken | 显示名、备注、排序 |
+| `config.toml` | Codex CLI | CLI 配置（复制到隔离环境） |
+
+---
 
 ## 架构
 
 ```
 Sources/
-├── CodexTokenCore/               # Framework — 无 UI 依赖，完全可测试
+├── CodexTokenCore/                    # ← 可测试框架，无 UI 依赖
 │   ├── Infrastructure/
-│   │   └── FileSystem.swift      # 协议 + InMemoryFileSystem 用于测试
+│   │   └── FileSystem.swift           #   协议 + InMemoryFileSystem
 │   ├── Models/
-│   │   ├── CodexAccount.swift    # 账号值类型（id、email、authMode…）
-│   │   ├── QuotaSnapshot.swift   # 额度状态（窗口 & 置信度）
-│   │   ├── CodexPaths.swift      # ~/.codex 路径常量
-│   │   └── AccountMetadata.swift # 自定义名、备注、排序、隐藏标记
+│   │   ├── CodexAccount.swift         #   id, email, authMode, lastRefresh…
+│   │   ├── QuotaSnapshot.swift        #   status, windows, confidence
+│   │   ├── CodexPaths.swift           #   ~/.codex 路径常量
+│   │   └── AccountMetadata.swift      #   name, remark, sort, hidden
 │   └── Services/
-│       ├── AccountDiscoveryService.swift      # 扫描 + 合并 + 排序
-│       ├── CLISwitchService.swift             # 原子切换 + 回滚
-│       ├── CLIProfilePreparationService.swift # 按账号隔离 CODEX_HOME
-│       ├── AccountSnapshotImportService.swift # auth.json → accounts/
-│       ├── AccountSnapshotRemovalService.swift# 删除或隐藏
-│       ├── AccountMetadataStore.swift         # 读写元数据 JSON
+│       ├── AccountDiscoveryService    #   扫描 + 合并 + 排序
+│       ├── CLISwitchService           #   原子交换 + 回滚
+│       ├── CLIProfilePreparation…     #   按账号隔离 CODEX_HOME
+│       ├── AccountSnapshotImport/…    #   快照生命周期
+│       ├── AccountMetadataStore       #   元数据增删改查
 │       └── Quota/
-│           ├── QuotaProviding.swift           # 协议 + 组合链
-│           ├── CodexAppServerQuotaProvider.swift # HTTPS 请求 openai.com
-│           ├── ExperimentalQuotaProvider.swift # 用户自定义 Shell 命令
-│           └── LocalStateQuotaProvider.swift   # 离线兜底
-└── CodexTokenApp/                # SwiftUI 菜单栏应用
-    ├── CodexTokenApp.swift       # @main MenuBarExtra 入口
-    ├── CodexTokenMenuView.swift  # 账号卡片网格
-    ├── CodexTokenMenuViewModel.swift  # 全部业务逻辑
-    ├── CodexTokenSettingsView.swift   # 设置窗口
-    ├── CodexTokenAppIntents.swift     # Siri 快捷指令
-    ├── AppPreferences.swift           # 语言 + 功能开关
-    ├── TerminalCLILaunchService.swift # launch.command 生成
-    ├── CLILaunchRecordStore.swift     # 启动次数 & 时间戳
-    ├── QuotaSnapshotCacheStore.swift  # 刷新间保留额度缓存
-    └── CodexAppServerAccountLoginService.swift # ChatGPT / API Key 登录流程
+│           ├── QuotaProviding         #   协议 + 组合链
+│           ├── CodexAppServerQuota…   #   HTTPS → openai.com
+│           ├── ExperimentalQuota…     #   用户自定义 Shell 命令
+│           └── LocalStateQuota…       #   离线兜底
+│
+└── CodexTokenApp/                     # ← SwiftUI 菜单栏应用
+    ├── CodexTokenApp.swift            #   @main MenuBarExtra
+    ├── CodexTokenMenuView/ViewModel   #   账号卡片 + 业务逻辑
+    ├── CodexTokenSettingsView         #   设置窗口
+    ├── CodexTokenAppIntents           #   Siri 快捷指令
+    ├── AppPreferences                 #   语言 & 功能开关
+    ├── TerminalCLILaunchService       #   launch.command 生成
+    └── CLILaunchRecordStore /
+        QuotaSnapshotCacheStore        #   本地缓存
 ```
 
 ### 设计要点
 
-- **`FileSystem` 协议** — 所有涉及磁盘的 Service 都接受 `FileSystem`。单元测试用 `InMemoryFileSystem`，生产环境用 `LocalFileSystem`。
-- **组合式额度 Provider** — `QuotaProviding` 实现的链式组合。第一个返回 `.available` 或 `.experimental` 的 Provider 胜出，否则尝试下一个。
-- **`CODEX_HOME` 隔离** — 当你为某个账号"打开 CLI"时，CodexToken 会创建临时目录并设置 `CODEX_HOME`，让启动的 Codex 进程使用隔离的认证文件。
-- **原子切换 + 回滚** — `CLISwitchService` 在覆写前备份当前 `auth.json`。如果 `codex login status` 验证失败，自动恢复备份。
+| 原则 | 实现 |
+|:-----|:-----|
+| **可测试性** | 所有 Service 接受 `FileSystem` 协议，测试用 `InMemoryFileSystem`——无真实磁盘 I/O |
+| **组合式额度** | `QuotaProviding` Provider 链，第一个返回 `.available` / `.experimental` 的胜出 |
+| **CODEX_HOME 隔离** | "打开 CLI"创建临时目录 + 自己的 `.codex/auth.json` + `CODEX_HOME` 环境变量 |
+| **原子切换** | `CLISwitchService`：备份 → 覆写 → 验证 → 失败回滚 |
+| **零依赖** | 纯 Swift 6 + SwiftUI + AppKit。无 SPM、无 CocoaPods、无 Carthage |
 
-## 数据文件
+---
 
-所有数据都在你 Mac 的 `~/.codex/` 下：
+## 隐私与安全
 
-| 文件 | 归属 | 内容 |
-|------|------|------|
-| `auth.json` | Codex CLI | 当前会话 token |
-| `accounts/*.json` | CodexToken | 保存的会话快照 |
-| `codex-token-metadata.json` | CodexToken | 显示名、备注、排序 |
-| `config.toml` | Codex CLI | CLI 配置（复制到隔离环境中） |
+> **简而言之：** CodexToken 不会把你的数据发送到任何地方。一切都在 `~/.codex/`。
 
-CodexToken 不会把数据发送到任何地方。详见 [PRIVACY.md](PRIVACY.md) 和 [SECURITY.md](SECURITY.md)。
+- 📄 [隐私政策](PRIVACY.md) — 收集什么（什么也不收集）、数据位置、实验性功能
+- 🔒 [安全政策](SECURITY.md) — Token 处理、原子切换、隔离环境
+
+---
 
 ## 贡献
 
-请参阅 [CONTRIBUTING.md](CONTRIBUTING.md)。
+欢迎 Bug 修复、测试覆盖、文档和国际化改进。请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-## 许可证
+---
 
-[MIT](LICENSE) © zhaojiapeng
+<p align="center">
+  <strong>MIT License</strong> © zhaojiapeng<br><br>
+  <a href="https://github.com/Zhao73/codextoken/stargazers">⭐ 觉得有用就 Star 一下吧！</a>
+</p>
