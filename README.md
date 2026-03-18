@@ -1,99 +1,78 @@
 <p align="center">
-  <img src="docs/images/banner.png" width="720" alt="QuotaBar banner" />
+  <img src="docs/images/banner.png" width="88" alt="QuotaBar icon" />
 </p>
 
 <h1 align="center">QuotaBar</h1>
 
 <p align="center">
-  <strong>A local-first macOS menu bar command center for Codex CLI account switching, quota visibility, and isolated sessions.</strong><br>
-  The repository slug stays <code>codextoken</code>, while the outward-facing product brand is now <code>QuotaBar</code>.
+  <strong>A polished macOS menu bar companion for Codex CLI multi-account switching, quota visibility, and isolated sessions.</strong>
 </p>
 
 <p align="center">
-  <a href="#install"><img src="https://img.shields.io/badge/Install-111827?style=for-the-badge&logo=apple&logoColor=white" /></a>
-  <a href="#product-tour"><img src="https://img.shields.io/badge/Product_Tour-2563eb?style=for-the-badge&logoColor=white" /></a>
-  <a href="#supported-languages"><img src="https://img.shields.io/badge/Languages-7c3aed?style=for-the-badge&logoColor=white" /></a>
-  <a href="README_CN.md"><img src="https://img.shields.io/badge/中文文档-f97316?style=for-the-badge&logoColor=white" /></a>
+  The repository slug stays <code>codextoken</code>. The product brand is <code>QuotaBar</code>.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-macOS_14+-111?style=flat-square&logo=apple&logoColor=white" />
-  <img src="https://img.shields.io/badge/Swift-6.0-F05138?style=flat-square&logo=swift&logoColor=white" />
-  <img src="https://img.shields.io/badge/UI-Menu_Bar_Control_Center-2563eb?style=flat-square" />
-  <img src="https://img.shields.io/badge/Local--First-Yes-16a34a?style=flat-square" />
-  <img src="https://img.shields.io/github/license/Zhao73/codextoken?style=flat-square&color=2563eb" />
+  <a href="README_CN.md"><img src="https://img.shields.io/badge/中文文档-2563eb?style=for-the-badge&logoColor=white" alt="Chinese README" /></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-111827?style=for-the-badge&logo=apple&logoColor=white" alt="macOS 14+" />
+  <img src="https://img.shields.io/badge/Local--First-No%20Cloud%20Sync-0f766e?style=for-the-badge&logoColor=white" alt="Local first" />
 </p>
 
 <p align="center">
-  <img src="docs/images/hero-showcase.png" width="100%" alt="QuotaBar product showcase" />
+  <img src="docs/images/github-hero.svg" width="100%" alt="QuotaBar hero" />
 </p>
 
-## Why QuotaBar
+## Why QuotaBar feels better
 
-Codex CLI becomes awkward the moment you operate across multiple identities.
+Codex CLI gets awkward as soon as you juggle more than one identity.
 
-You end up hand-editing `~/.codex/auth.json`, second-guessing which account is active, losing track of your 5-hour and weekly windows, and opening disposable shells just to keep sessions separated.
-
-QuotaBar turns that into a real product surface:
-
-- switch the active Codex CLI account with validation and rollback
-- compare saved accounts by quota window before you launch work
-- attach local remarks so every account stays recognizable
-- preserve the current session as a reusable snapshot
-- launch isolated CLI sessions with per-account `CODEX_HOME`
-- keep local provider diagnostics in one place
-
----
-
-## Product Tour
-
-<p align="center">
-  <img src="docs/images/menu-bar-real.png" width="420" alt="QuotaBar real menu bar icon" />
-</p>
-
-<p align="center">
-  <em>The menu bar entry is always visible now, with a stable <code>QB</code> badge fallback plus SF Symbol support.</em>
-</p>
-
-### Localized Interface Previews
+QuotaBar turns that into a menu bar workflow that feels deliberate instead of manual:
 
 <table>
 <tr>
-<td width="50%">
-  <img src="docs/images/screenshot-en.png" alt="QuotaBar English interface preview" />
+<td width="33%" valign="top">
+  <strong>Switch safely</strong><br>
+  Validate the target account, roll back on failure, and protect the active CLI session.
 </td>
-<td width="50%">
-  <img src="docs/images/screenshot-zh.png" alt="QuotaBar Chinese interface preview" />
+<td width="33%" valign="top">
+  <strong>Choose by quota</strong><br>
+  Compare 5-hour and weekly windows before you spend the wrong account.
 </td>
-</tr>
-<tr>
-<td align="center"><strong>English UI</strong></td>
-<td align="center"><strong>中文界面</strong></td>
+<td width="33%" valign="top">
+  <strong>Keep sessions isolated</strong><br>
+  Launch per-account shells with their own <code>CODEX_HOME</code> and copied config.
+</td>
 </tr>
 </table>
 
-### Feature Display
-
 <p align="center">
-  <img src="docs/images/features-grid.png" width="100%" alt="QuotaBar feature highlights" />
+  <img src="docs/images/github-features.svg" width="100%" alt="QuotaBar features" />
 </p>
 
----
+## Product tour
 
-## Highlights
+<p align="center">
+  <img src="docs/images/menu-bar-real.png" width="680" alt="QuotaBar real menu bar item" />
+</p>
 
-- **Validated account switching**: write the target snapshot into the live CLI, verify it with `codex login status`, and roll back on failure.
-- **Built for real multi-account use**: saved snapshots, duplicate merging, hidden one-off sessions, remarks, and stable local ordering are built in.
-- **Quota-first workflow**: see 5-hour and weekly windows before you burn the wrong account.
-- **Isolated CLI launches**: open a dedicated Terminal session for any account with its own `CODEX_HOME` and copied config.
-- **Useful settings instead of filler**: language, startup tab, auto refresh, diagnostics, account management, storage shortcuts, and advanced quota controls.
-- **Right-click shortcuts**: refresh, settings, re-login, switch account, import current session, and open CLI directly from the menu bar icon.
+<p align="center">
+  <em>A visible menu bar entry matters. QuotaBar now keeps a stable <code>QB</code> fallback so the app never feels invisible.</em>
+</p>
 
----
+<p align="center">
+  <img src="docs/images/github-localized.svg" width="100%" alt="QuotaBar localized interface preview" />
+</p>
 
-## Supported Languages
+## What you can do from one place
 
-QuotaBar now ships with these built-in interface languages:
+- Switch the active Codex CLI account with validation and rollback
+- Save the current session as a reusable snapshot
+- Attach local remarks to every account so names stay recognizable
+- Open isolated CLI sessions for any saved account
+- Refresh quota windows and provider diagnostics without leaving the menu bar
+- Manage language, startup behavior, diagnostics, and account storage from settings
+
+## Built-in languages
 
 - English
 - 简体中文
@@ -102,10 +81,7 @@ QuotaBar now ships with these built-in interface languages:
 - 한국어
 - Español
 - Português (Brasil)
-
-`Follow System` is also supported, so the app automatically matches macOS when a bundled language pack exists.
-
----
+- Follow System
 
 ## Install
 
@@ -119,9 +95,10 @@ xcodegen generate
 open CodexToken.xcodeproj
 ```
 
-Then press `⌘R`. The app runs as a menu bar utility.
+Run the app with `⌘R`. It launches as a menu bar utility.
 
-### Run tests
+<details>
+<summary><strong>Run tests</strong></summary>
 
 ```bash
 xcodebuild test \
@@ -130,55 +107,42 @@ xcodebuild test \
   -destination 'platform=macOS'
 ```
 
----
+</details>
 
-## Workflow
+<details>
+<summary><strong>Architecture and workflow</strong></summary>
 
 ```mermaid
 flowchart LR
-    A["~/.codex/accounts/*.json"] --> B["Discover + merge saved accounts"]
+    A["~/.codex/accounts/*.json"] --> B["Discover and merge saved accounts"]
     C["~/.codex/auth.json"] --> B
-    B --> D["QuotaBar menu surface"]
+    B --> D["QuotaBar menu bar surface"]
     D --> E["Switch active CLI account"]
     D --> F["Launch isolated CLI session"]
-    D --> G["Edit remarks + snapshots"]
-    D --> H["Open settings + diagnostics"]
+    D --> G["Edit remarks and snapshots"]
+    D --> H["Open settings and diagnostics"]
     E --> I["Validate with codex login status"]
-    F --> J["Per-account CODEX_HOME"]
+    F --> J["Prepare per-account CODEX_HOME"]
 ```
-
----
-
-## Project Structure
 
 | Layer | Responsibility |
 | :--- | :--- |
 | `CodexTokenCore` | Account discovery, metadata persistence, snapshot import/removal, CLI switching, quota providers |
-| `CodexTokenApp` | SwiftUI menu bar UI, settings window, local caches, remarks, Terminal launch flows |
-| Local files | `auth.json`, `accounts/*.json`, metadata JSON, copied config for isolated sessions |
+| `CodexTokenApp` | Menu bar UI, settings, local caches, remarks, Terminal launch flows |
+| Local files | `auth.json`, `accounts/*.json`, metadata JSON, isolated session config |
 
-### Design choices
-
-- **Atomic switching** keeps failed swaps from corrupting the active CLI session.
-- **Bundle-based localization** keeps the app lightweight and dependency-free.
-- **Provider snapshots with local fallback** keep quota panels usable even when upstream data is partial.
-- **Outward-only rebrand** keeps the stable repo slug and target structure while presenting a cleaner product brand.
-
----
+</details>
 
 ## Privacy
 
-QuotaBar is local-first.
+QuotaBar is local-first by default.
 
 - No telemetry
-- No analytics
+- No analytics SDK
 - No cloud account sync
 - No token relay service
-- No third-party runtime dependency for core workflow
 
-See [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), and [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
-
----
+See [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), and [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 <p align="center">
   <strong>QuotaBar</strong> by Zhao73<br>

@@ -1,0 +1,84 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="160" y1="80" x2="1460" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9FBFF"/>
+      <stop offset="1" stop-color="#F4F7FC"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#4D8DFF"/>
+      <stop offset="1" stop-color="#1D63F2"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#59D5D4"/>
+      <stop offset="1" stop-color="#1398A3"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="26" stdDeviation="35" flood-color="#A9BEE4" flood-opacity="0.18"/>
+    </filter>
+    <filter id="cardShadow" x="720" y="96" width="736" height="690" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#6285C9" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <circle cx="142" cy="782" r="210" fill="#EAF0FF"/>
+  <circle cx="1338" cy="122" r="180" fill="#ECF7FF"/>
+  <circle cx="1298" cy="774" r="136" fill="#F2ECFF"/>
+
+  <g opacity="0.92">
+    <rect x="92" y="92" width="132" height="42" rx="21" fill="#EAF1FF"/>
+    <text x="126" y="119" fill="#2563EB" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="21" font-weight="700">QuotaBar</text>
+  </g>
+
+  <text x="92" y="220" fill="#0F172A" font-family="Georgia, Times New Roman, serif" font-size="86" font-style="italic" font-weight="700">A calmer way</text>
+  <text x="92" y="306" fill="#0F172A" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="74" font-weight="800">to manage Codex accounts</text>
+
+  <text x="92" y="380" fill="#516079" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="30" font-weight="500">A polished macOS menu bar companion for multi-account switching,</text>
+  <text x="92" y="420" fill="#516079" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="30" font-weight="500">quota visibility, local remarks, and isolated CLI sessions.</text>
+
+  <g>
+    <rect x="92" y="486" width="214" height="64" rx="32" fill="url(#blue)"/>
+    <text x="139" y="526" fill="white" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="26" font-weight="700">macOS 14+</text>
+
+    <rect x="322" y="486" width="214" height="64" rx="32" fill="white" stroke="#D9E3F4" stroke-width="2"/>
+    <text x="372" y="526" fill="#1E293B" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="26" font-weight="700">Local-first</text>
+  </g>
+
+  <g>
+    <rect x="92" y="618" width="458" height="188" rx="28" fill="white" stroke="#E4EAF5" stroke-width="2" filter="url(#shadow)"/>
+    <text x="132" y="686" fill="#0F172A" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="28" font-weight="700">What changes when it is one click</text>
+    <text x="132" y="734" fill="#5E6D86" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="24" font-weight="500">See 5h and weekly quota before choosing an account,</text>
+    <text x="132" y="768" fill="#5E6D86" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="24" font-weight="500">keep remarks attached, and open isolated CLI sessions safely.</text>
+  </g>
+
+  <g filter="url(#cardShadow)">
+    <rect x="760" y="126" width="648" height="630" rx="34" fill="#FFFFFF"/>
+    <rect x="792" y="162" width="584" height="72" rx="22" fill="#EEF3FB"/>
+    <rect x="810" y="178" width="170" height="40" rx="20" fill="#E4EBF8"/>
+    <rect x="1000" y="178" width="170" height="40" rx="20" fill="url(#blue)"/>
+    <rect x="1190" y="178" width="170" height="40" rx="20" fill="#E4EBF8"/>
+    <text x="855" y="204" fill="#5B6476" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="24" font-weight="700">Overview</text>
+    <text x="1062" y="204" fill="white" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="24" font-weight="800">Codex</text>
+    <text x="1242" y="204" fill="#5B6476" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="24" font-weight="700">Claude</text>
+
+    <text x="822" y="320" fill="#111827" font-family="Georgia, Times New Roman, serif" font-size="78" font-style="italic" font-weight="700">Codex</text>
+    <text x="822" y="374" fill="#6B7280" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="28" font-weight="600">Updated moments ago</text>
+
+    <rect x="1162" y="266" width="182" height="72" rx="26" fill="#F4F7FC"/>
+    <text x="1204" y="311" fill="#111827" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="24" font-weight="800">Team</text>
+
+    <rect x="822" y="420" width="540" height="142" rx="28" fill="#F9FBFF" stroke="#E8EDF7" stroke-width="2"/>
+    <text x="856" y="474" fill="#111827" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="28" font-weight="800">Session Window</text>
+    <rect x="856" y="500" width="470" height="18" rx="9" fill="#E6ECF5"/>
+    <rect x="856" y="500" width="350" height="18" rx="9" fill="url(#blue)"/>
+    <text x="856" y="548" fill="#111827" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="54" font-weight="800">82% left</text>
+    <text x="1146" y="548" fill="#6B7280" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="28" font-weight="700">Resets in 4h 50m</text>
+
+    <rect x="822" y="584" width="540" height="132" rx="28" fill="#F9FBFF" stroke="#E8EDF7" stroke-width="2"/>
+    <text x="856" y="635" fill="#111827" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="28" font-weight="800">Weekly Window</text>
+    <rect x="856" y="660" width="470" height="18" rx="9" fill="#E6ECF5"/>
+    <rect x="856" y="660" width="288" height="18" rx="9" fill="url(#teal)"/>
+    <text x="856" y="706" fill="#111827" font-family="SF Pro Display, Inter, Arial, sans-serif" font-size="46" font-weight="800">69% left</text>
+    <text x="1146" y="706" fill="#6B7280" font-family="SF Pro Text, Inter, Arial, sans-serif" font-size="26" font-weight="700">Lasts until reset</text>
+  </g>
+</svg>
