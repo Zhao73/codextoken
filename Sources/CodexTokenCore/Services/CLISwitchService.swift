@@ -19,11 +19,18 @@ public struct DefaultCLIStatusValidator: CLIStatusValidating {
     public func validateCurrentLogin() -> CLIValidationResult {
         do {
             let result = try commandRunner.run(shellCommand: "codex login status")
+            let mergedOutput = [result.standardOutput, result.standardError]
+                .joined(separator: "\n")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
             guard result.exitCode == 0 else {
-                return .failure(result.standardError.trimmingCharacters(in: .whitespacesAndNewlines))
+                return .failure(
+                    mergedOutput.isEmpty
+                        ? "`codex login status` exited with a non-zero status."
+                        : mergedOutput
+                )
             }
 
-            if result.standardOutput.localizedCaseInsensitiveContains("logged in") {
+            if mergedOutput.localizedCaseInsensitiveContains("logged in") {
                 return .success
             }
 

@@ -172,6 +172,42 @@ final class AccountDiscoveryServiceTests: XCTestCase {
         XCTAssertEqual(accounts.first?.storageKey, "acct-main")
         XCTAssertEqual(accounts.first?.lastRefreshAt, ISO8601DateFormatter().date(from: "2026-03-09T12:00:00Z"))
     }
+
+    func testLoadAccountsPrefersActiveAuthWhenSameStorageKeyExists() throws {
+        let fileSystem = InMemoryFileSystem()
+        let paths = try makeCodexPaths(fileSystem: fileSystem)
+        try fileSystem.createDirectory(at: paths.codexDirectory, withIntermediateDirectories: true)
+        try fileSystem.createDirectory(at: paths.accountsDirectory, withIntermediateDirectories: true)
+
+        try fileSystem.write(
+            Data(authFixture(accountID: "acct-main", lastRefresh: "2026-03-17T14:46:25Z").utf8),
+            to: paths.activeAuthFile,
+            options: .atomic
+        )
+        try fileSystem.write(
+            Data(authFixture(accountID: "acct-main", lastRefresh: "2026-03-09T00:17:08Z").utf8),
+            to: paths.accountsDirectory.appendingPathComponent("acct-main.json"),
+            options: .atomic
+        )
+
+        let service = AccountDiscoveryService(
+            fileSystem: fileSystem,
+            paths: paths,
+            metadataStore: AccountMetadataStore(
+                fileSystem: fileSystem,
+                metadataURL: URL(fileURLWithPath: "/tmp/codextoken-metadata.json")
+            )
+        )
+
+        let accounts = try service.loadAccounts()
+        let account = try XCTUnwrap(accounts.first)
+
+        XCTAssertEqual(account.storageKey, "acct-main")
+        XCTAssertEqual(account.sourceFile, paths.activeAuthFile)
+        XCTAssertEqual(account.lastRefreshAt, ISO8601DateFormatter().date(from: "2026-03-17T14:46:25Z"))
+        XCTAssertTrue(account.isActiveCLI)
+        XCTAssertTrue(account.isImportedFromActiveSession)
+    }
 }
 
 private func makeCodexPaths(fileSystem: InMemoryFileSystem) throws -> CodexPaths {

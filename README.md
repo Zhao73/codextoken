@@ -1,104 +1,105 @@
 <p align="center">
-  <img src="docs/images/banner.png" width="600" />
+  <img src="docs/images/banner.png" width="720" alt="QuotaBar banner" />
 </p>
 
-<h1 align="center">CodexToken</h1>
+<h1 align="center">QuotaBar</h1>
 
 <p align="center">
-  <strong>The missing account manager for Codex CLI.</strong><br>
-  Switch accounts. Monitor quota. Launch isolated sessions. All from your menu bar.
+  <strong>A polished macOS menu bar command center for Codex CLI accounts, quota windows, and provider diagnostics.</strong><br>
+  Built from the <code>codextoken</code> repo slug, now presented as a cleaner outward-facing product brand.
 </p>
 
 <p align="center">
-  <a href="#install"><img src="https://img.shields.io/badge/-Install-28a745?style=for-the-badge&logoColor=white" /></a>
-  <a href="#features"><img src="https://img.shields.io/badge/-Features-0366d6?style=for-the-badge&logoColor=white" /></a>
-  <a href="#architecture"><img src="https://img.shields.io/badge/-Architecture-6f42c1?style=for-the-badge&logoColor=white" /></a>
-  <a href="README_CN.md"><img src="https://img.shields.io/badge/-中文文档-e36209?style=for-the-badge&logoColor=white" /></a>
+  <a href="#install"><img src="https://img.shields.io/badge/Install-111827?style=for-the-badge&logo=apple&logoColor=white" /></a>
+  <a href="#highlights"><img src="https://img.shields.io/badge/Highlights-2563eb?style=for-the-badge&logoColor=white" /></a>
+  <a href="#supported-languages"><img src="https://img.shields.io/badge/Languages-7c3aed?style=for-the-badge&logoColor=white" /></a>
+  <a href="README_CN.md"><img src="https://img.shields.io/badge/中文文档-f97316?style=for-the-badge&logoColor=white" /></a>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-macOS_14+-111?style=flat-square&logo=apple&logoColor=white" />
   <img src="https://img.shields.io/badge/Swift-6.0-F05138?style=flat-square&logo=swift&logoColor=white" />
-  <img src="https://img.shields.io/badge/dependencies-0-brightgreen?style=flat-square" />
-  <img src="https://img.shields.io/github/license/Zhao73/codextoken?style=flat-square&color=blue" />
-  <img src="https://img.shields.io/github/stars/Zhao73/codextoken?style=flat-square" />
+  <img src="https://img.shields.io/badge/UI-Menu_Bar_Control_Center-2563eb?style=flat-square" />
+  <img src="https://img.shields.io/badge/Local--First-Yes-16a34a?style=flat-square" />
+  <img src="https://img.shields.io/github/license/Zhao73/codextoken?style=flat-square&color=2563eb" />
 </p>
-
-<!--
-<p align="center">
-  <img src="docs/screenshots/menu.png" width="380" />
-  &nbsp;&nbsp;
-  <img src="docs/screenshots/settings.png" width="380" />
-</p>
--->
 
 ---
 
-## The Problem
+## What QuotaBar Is
 
-You have multiple OpenAI / Codex accounts — personal, work, test keys. Every time you switch, you're manually editing `~/.codex/auth.json`, losing track of which account is active, unable to compare quotas, and terrified of overwriting the wrong token.
+QuotaBar turns a fragile Codex CLI multi-account workflow into a polished menu bar experience.
 
-**CodexToken fixes this.** One click in the menu bar. Done.
+Instead of hand-editing `~/.codex/auth.json`, guessing which account is active, and discovering too late that you used the wrong quota window, you get a dedicated control surface for:
+
+- switching Codex accounts with validation and rollback
+- viewing 5-hour and weekly quota windows at a glance
+- saving and restoring local account snapshots
+- launching isolated CLI sessions per account
+- attaching local remarks so every saved account stays recognizable
+- checking Claude and Antigravity local diagnostics from one place
 
 ---
 
-## Features
+## Highlights
 
-<table>
-<tr>
-<td width="50%">
+- **Safe account switching**: swaps the active CLI account, validates the result, and rolls back if the target session is unusable.
+- **Designed for real multi-account use**: saved snapshots, duplicate detection, hidden one-off sessions, local sort order, and editable remarks are all built in.
+- **Fast menu bar workflow**: open the panel, compare accounts, switch, and keep working without opening config files.
+- **Settings that matter**: language, startup tab, auto refresh, provider diagnostics, account management, local storage shortcuts, and advanced quota command controls.
+- **Right-click shortcuts**: refresh, settings, re-login, open CLI, and switch accounts directly from the menu bar icon.
+- **Local-first by default**: account state lives on your Mac, not behind a hosted backend.
 
-### 🔍 Auto-Discovery
-Scans `~/.codex/accounts/` and `auth.json` automatically. Merges duplicates by `account_id`. Extracts email & provider from JWT claims — zero configuration needed.
+---
 
-### ⚡ One-Click Switching
-Select an account, click switch. CodexToken copies the snapshot to `auth.json`, validates via `codex login status`, and **auto-rolls back** if anything goes wrong.
+## Supported Languages
 
-### 📊 Quota Monitoring
-Composite provider chain: Codex App Server → custom shell command → local fallback. Displays 5-hour & weekly windows with confidence levels.
+QuotaBar now ships with these built-in interface languages:
 
-### 🏷️ Account Metadata
-Custom display names, free-text remarks, drag-to-reorder. Stored in a separate local JSON — never touches your auth files.
+- English
+- 简体中文
+- 繁體中文
+- 日本語
+- 한국어
+- Español
+- Português (Brasil)
 
-</td>
-<td width="50%">
+`Follow System` is also supported, so the app can match your macOS language automatically when a bundled language pack exists.
 
-### 🖥️ Isolated Terminal Sessions
-"Open CLI" creates a dedicated Terminal with its own `CODEX_HOME`. Run **multiple Codex instances** simultaneously, each authenticated as a different account.
+---
 
-### 📸 Session Snapshots
-Save the current `auth.json` as a named snapshot. Delete or hide accounts you no longer need. Import snapshots from login flows.
+## Why It Exists
 
-### 🗣️ Siri Shortcuts
-Three AppIntents out of the box: save session, open `.codex` folder, reveal `auth.json`. Works with Shortcuts app and voice commands.
+Codex CLI is excellent at execution, but account management is still too manual if you operate across personal, work, client, backup, or test identities.
 
-### 🌐 Bilingual Interface
-Full English & 简体中文 UI with instant runtime switching — no restart required.
+QuotaBar gives that workflow a proper surface:
 
-</td>
-</tr>
-</table>
+| Need | What QuotaBar does |
+| :--- | :--- |
+| Stop editing `auth.json` by hand | Switch the live CLI account from the menu bar |
+| Avoid burning the wrong quota | Show the active 5-hour and weekly windows before you launch work |
+| Keep accounts understandable | Save local remarks and show them in the hero card, switcher, and right-click menu |
+| Work across isolated sessions | Launch each account in its own Terminal with its own `CODEX_HOME` |
+| Recover from stale sessions | Re-login or import the current session snapshot with one click |
+| Debug provider state quickly | Surface local Claude and Antigravity diagnostics in Settings |
 
 ---
 
 ## Install
 
-> **Requirements:** macOS 14+, [XcodeGen](https://github.com/yonaskolb/XcodeGen) 2.38+, Xcode with Swift 6
+> Requirements: macOS 14+, Xcode, and [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 
 ```bash
-# Install XcodeGen (one-time)
 brew install xcodegen
-
-# Clone & build
 git clone https://github.com/Zhao73/codextoken.git
 cd codextoken
 xcodegen generate
 open CodexToken.xcodeproj
-# ⌘R → app appears in the menu bar (no Dock icon)
 ```
 
-<details>
-<summary><strong>Run tests</strong></summary>
+Then press `⌘R`. The app runs as a menu bar utility without a Dock icon.
+
+### Run tests
 
 ```bash
 xcodebuild test \
@@ -106,111 +107,58 @@ xcodebuild test \
   -scheme CodexTokenCore \
   -destination 'platform=macOS'
 ```
-</details>
 
 ---
 
-## How It Works
+## Workflow
 
+```mermaid
+flowchart LR
+    A["~/.codex/accounts/*.json"] --> B["Discover + merge saved accounts"]
+    C["~/.codex/auth.json"] --> B
+    B --> D["QuotaBar menu surface"]
+    D --> E["Switch active CLI account"]
+    D --> F["Launch isolated CLI session"]
+    D --> G["Edit local remarks"]
+    D --> H["Open Settings + diagnostics"]
+    E --> I["Validate with codex login status"]
+    F --> J["Per-account CODEX_HOME"]
 ```
-┌─────────────────┐     ┌──────────────────────────┐
-│    Menu Bar      │────▶│  AccountDiscoveryService  │
-│  CodexToken ⌘   │     │  scan ~/.codex/accounts/  │
-└────────┬────────┘     │  parse JWT claims         │
-         │              └──────────────────────────┘
-         │
-         ├── Switch ──▶ CLISwitchService
-         │              ├─ backup auth.json
-         │              ├─ write new token
-         │              ├─ validate (codex login status)
-         │              └─ rollback on failure ↩
-         │
-         ├── Open CLI ──▶ CLIProfilePreparationService
-         │                ├─ create isolated CODEX_HOME
-         │                └─ launch Terminal with env
-         │
-         └── Quota ──▶ CompositeQuotaProvider
-                       ├─ CodexAppServerQuotaProvider (HTTPS)
-                       ├─ ExperimentalQuotaProvider (shell cmd)
-                       └─ LocalStateQuotaProvider (fallback)
-```
-
-### Data Files
-
-All data stays in `~/.codex/` on your Mac — **nothing leaves your machine**.
-
-| File | Owner | Content |
-|:-----|:------|:--------|
-| `auth.json` | Codex CLI | Active session token |
-| `accounts/*.json` | CodexToken | Saved session snapshots |
-| `codex-token-metadata.json` | CodexToken | Display names, remarks, sort order |
-| `config.toml` | Codex CLI | CLI config (copied into isolated profiles) |
 
 ---
 
-## Architecture
+## Project Structure
 
-```
-Sources/
-├── CodexTokenCore/                    # ← Testable framework, no UI
-│   ├── Infrastructure/
-│   │   └── FileSystem.swift           #   Protocol + InMemoryFileSystem
-│   ├── Models/
-│   │   ├── CodexAccount.swift         #   id, email, authMode, lastRefresh…
-│   │   ├── QuotaSnapshot.swift        #   status, windows, confidence
-│   │   ├── CodexPaths.swift           #   ~/.codex path constants
-│   │   └── AccountMetadata.swift      #   name, remark, sort, hidden
-│   └── Services/
-│       ├── AccountDiscoveryService    #   Scan + merge + sort
-│       ├── CLISwitchService           #   Atomic swap + rollback
-│       ├── CLIProfilePreparationService  # Per-account CODEX_HOME
-│       ├── AccountSnapshotImport/Removal # Snapshot lifecycle
-│       ├── AccountMetadataStore       #   Metadata CRUD
-│       └── Quota/
-│           ├── QuotaProviding         #   Protocol + composite chain
-│           ├── CodexAppServerQuota…   #   HTTPS → openai.com
-│           ├── ExperimentalQuota…     #   User shell command
-│           └── LocalStateQuota…       #   Offline fallback
-│
-└── CodexTokenApp/                     # ← SwiftUI menu bar app
-    ├── CodexTokenApp.swift            #   @main MenuBarExtra
-    ├── CodexTokenMenuView/ViewModel   #   Account cards + business logic
-    ├── CodexTokenSettingsView         #   Settings window
-    ├── CodexTokenAppIntents           #   Siri Shortcuts
-    ├── AppPreferences                 #   Language & feature toggles
-    ├── TerminalCLILaunchService       #   launch.command generation
-    └── CLILaunchRecordStore /
-        QuotaSnapshotCacheStore        #   Local caches
-```
+| Layer | Responsibility |
+| :--- | :--- |
+| `CodexTokenCore` | Account discovery, metadata persistence, snapshot import/removal, CLI switching, quota providers |
+| `CodexTokenApp` | SwiftUI menu bar UI, settings window, local caches, remarks, Terminal launch flows |
+| Local files | `auth.json`, `accounts/*.json`, metadata JSON, copied config for isolated sessions |
 
-### Design Highlights
+### Design choices
 
-| Principle | Implementation |
-|:----------|:---------------|
-| **Testability** | Every service accepts a `FileSystem` protocol. Tests use `InMemoryFileSystem` — no real disk I/O. |
-| **Composite Quota** | Chain of `QuotaProviding` providers. First `.available` / `.experimental` wins; otherwise next in line. |
-| **CODEX_HOME Isolation** | "Open CLI" creates a temp dir with its own `.codex/auth.json` + `CODEX_HOME` env var. |
-| **Atomic Switch** | `CLISwitchService` backs up → overwrites → validates → rolls back on failure. |
-| **Zero Dependencies** | Pure Swift 6 + SwiftUI + AppKit. No SPM packages, no CocoaPods, no Carthage. |
+- **Atomic switching** keeps failed account swaps from corrupting the active CLI session.
+- **Bundle-based localization** keeps the app lightweight and dependency-free.
+- **Provider snapshots + local fallback** make quota panels useful even when upstream data is partial.
+- **Outward-only rebrand** keeps the stable repo slug and internal target structure while making the product presentation cleaner.
 
 ---
 
-## Privacy & Security
+## Privacy
 
-> **TL;DR:** CodexToken never sends your data anywhere. Everything stays in `~/.codex/`.
+QuotaBar is local-first.
 
-- 📄 [Privacy Policy](PRIVACY.md) — What we collect (nothing), where data lives, experimental opt-ins
-- 🔒 [Security Policy](SECURITY.md) — Token handling, atomic switching, isolated profiles
+- No telemetry
+- No analytics
+- No cloud account sync
+- No token relay service
+- No third-party runtime dependencies
 
----
-
-## Contributing
-
-We welcome bug fixes, test coverage, docs, and localization improvements. See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), and [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ---
 
 <p align="center">
-  <strong>MIT License</strong> © zhaojiapeng<br><br>
-  <a href="https://github.com/Zhao73/codextoken/stargazers">⭐ Star this repo</a> if you find it useful!
+  <strong>QuotaBar</strong> by Zhao73<br>
+  If it improves your Codex workflow, consider starring the repo.
 </p>

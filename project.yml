@@ -34,7 +34,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.zhaojiapeng.CodexToken
         PRODUCT_NAME: CodexToken
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: CodexToken
+        INFOPLIST_KEY_CFBundleDisplayName: QuotaBar
         INFOPLIST_KEY_LSUIElement: YES
         CODE_SIGN_STYLE: Automatic
     postBuildScripts:
@@ -43,9 +43,10 @@ targets:
         script: |
           set -euo pipefail
           RES_DIR="${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
-          mkdir -p "${RES_DIR}/en.lproj" "${RES_DIR}/zh-Hans.lproj"
-          cp "${SRCROOT}/Resources/en.lproj/Localizable.strings" "${RES_DIR}/en.lproj/Localizable.strings"
-          cp "${SRCROOT}/Resources/zh-Hans.lproj/Localizable.strings" "${RES_DIR}/zh-Hans.lproj/Localizable.strings"
+          for locale in en zh-Hans zh-Hant ja ko es pt-BR; do
+            mkdir -p "${RES_DIR}/${locale}.lproj"
+            cp "${SRCROOT}/Resources/${locale}.lproj/Localizable.strings" "${RES_DIR}/${locale}.lproj/Localizable.strings"
+          done
   CodexTokenCoreTests:
     type: bundle.unit-test
     platform: macOS

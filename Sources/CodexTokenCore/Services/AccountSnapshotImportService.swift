@@ -36,6 +36,49 @@ public final class AccountSnapshotImportService {
         return try storeSnapshot(from: paths.activeAuthFile, preferredFileName: preferredFileName)
     }
 
+    public func makeCurrentSessionImportShellScript() -> String {
+        """
+        export CODEXTOKEN_AUTH_FILE='\(escapedForSingleQuotes(paths.activeAuthFile.path))'
+        export CODEXTOKEN_ACCOUNTS_DIR='\(escapedForSingleQuotes(paths.accountsDirectory.path))'
+        /usr/bin/python3 - <<'PY'
+        import json
+        import os
+        import pathlib
+        import re
+        import shutil
+        import sys
+
+        auth_path = pathlib.Path(os.environ["CODEXTOKEN_AUTH_FILE"])
+        accounts_dir = pathlib.Path(os.environ["CODEXTOKEN_ACCOUNTS_DIR"])
+
+        if not auth_path.exists():
+            print("CodexToken: auth.json was not found after login.", file=sys.stderr)
+            sys.exit(1)
+
+        try:
+            record = json.loads(auth_path.read_text())
+        except Exception as exc:
+            print(f"CodexToken: failed to read auth.json: {exc}", file=sys.stderr)
+            sys.exit(1)
+
+        tokens = record.get("tokens") or {}
+        account_id = (tokens.get("account_id") or record.get("account_id") or "").strip()
+        sanitized = re.sub(r"-{2,}", "-", re.sub(r"[^A-Za-z0-9_-]", "-", account_id)).strip("-")
+
+        if not sanitized:
+            print("CodexToken: auth.json does not contain a usable account identifier.", file=sys.stderr)
+            sys.exit(1)
+
+        accounts_dir.mkdir(parents=True, exist_ok=True)
+        destination = accounts_dir / f"{sanitized}.json"
+        shutil.copy2(auth_path, destination)
+        print(destination)
+        PY
+        unset CODEXTOKEN_AUTH_FILE
+        unset CODEXTOKEN_ACCOUNTS_DIR
+        """
+    }
+
     @discardableResult
     public func storeSnapshot(from sourceFile: URL, preferredFileName: String?) throws -> URL {
         guard fileSystem.fileExists(at: sourceFile) else {
@@ -71,6 +114,10 @@ public final class AccountSnapshotImportService {
             .trimmingCharacters(in: CharacterSet(charactersIn: "-"))
 
         return collapsed.isEmpty ? nil : collapsed
+    }
+
+    private func escapedForSingleQuotes(_ value: String) -> String {
+        value.replacingOccurrences(of: "'", with: "'\"'\"'")
     }
 }
 

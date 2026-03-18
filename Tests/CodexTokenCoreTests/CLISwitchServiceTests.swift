@@ -2,6 +2,20 @@ import XCTest
 @testable import CodexTokenCore
 
 final class CLISwitchServiceTests: XCTestCase {
+    func testDefaultCLIStatusValidatorTreatsLoggedInMessageOnStandardErrorAsSuccess() {
+        let validator = DefaultCLIStatusValidator(
+            commandRunner: MockShellCommandRunner(
+                result: ShellCommandResult(
+                    standardOutput: "",
+                    standardError: "Logged in using ChatGPT",
+                    exitCode: 0
+                )
+            )
+        )
+
+        XCTAssertEqual(validator.validateCurrentLogin(), .success)
+    }
+
     func testSwitchToAccountReplacesActiveAuthFile() throws {
         let fileSystem = InMemoryFileSystem()
         let paths = try makePaths(fileSystem: fileSystem)
@@ -98,6 +112,14 @@ private struct MockCLIStatusValidating: CLIStatusValidating {
     let result: CLIValidationResult
 
     func validateCurrentLogin() -> CLIValidationResult {
+        result
+    }
+}
+
+private struct MockShellCommandRunner: ShellCommandRunning {
+    let result: ShellCommandResult
+
+    func run(shellCommand: String) throws -> ShellCommandResult {
         result
     }
 }

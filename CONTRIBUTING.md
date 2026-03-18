@@ -16,7 +16,7 @@ open CodexToken.xcodeproj
 
 1. **Core vs App** — Business logic → `CodexTokenCore`. UI → `CodexTokenApp`.
 2. **Tests** — Core changes need unit tests. Use `InMemoryFileSystem` for file ops.
-3. **Localization** — Add strings to **both** `en.lproj` and `zh-Hans.lproj`.
+3. **Localization** — Keep `en.lproj` as the source of truth, then mirror new keys into every shipped language pack: `zh-Hans`, `zh-Hant`, `ja`, `ko`, `es`, and `pt-BR`.
 4. **No dependencies** — Don't add third-party packages.
 5. **Swift 6** — Strict concurrency, `Sendable` conformance.
 
@@ -46,7 +46,7 @@ open CodexToken.xcodeproj
 
 1. **Core vs App** — 业务逻辑 → `CodexTokenCore`，UI → `CodexTokenApp`。
 2. **测试** — Core 的改动需要单元测试，文件操作用 `InMemoryFileSystem`。
-3. **国际化** — `en.lproj` 和 `zh-Hans.lproj` **都要**加字符串。
+3. **国际化** — 以 `en.lproj` 为基准，新增字符串时同步补齐所有已内置语言包：`zh-Hans`、`zh-Hant`、`ja`、`ko`、`es`、`pt-BR`。
 4. **无依赖** — 不引入第三方包。
 5. **Swift 6** — 严格并发，`Sendable` 一致性。
 

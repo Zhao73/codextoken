@@ -6,11 +6,11 @@
 
 ## English
 
-CodexToken is a **local-first** application.
+QuotaBar is a **local-first** application.
 
 ### What we collect
 
-Nothing. CodexToken makes **zero** network requests for its core features. There is no analytics, no telemetry, no crash reporting, no cloud sync.
+Nothing. QuotaBar makes **zero** network requests for its core features. There is no analytics, no telemetry, no crash reporting, no cloud sync.
 
 ### Where your data lives
 
@@ -26,7 +26,7 @@ Everything stays on your Mac.
 ### Experimental features (opt-in)
 
 - **Codex App Server quota** — When enabled, sends HTTPS requests to `api.openai.com` using your existing auth token to fetch quota data. No additional data is sent.
-- **Custom quota command** — Executes a shell command you define. CodexToken only reads stdout.
+- **Custom quota command** — Executes a shell command you define. QuotaBar only reads stdout.
 
 Both are **disabled by default**.
 
@@ -38,7 +38,7 @@ None. Zero external dependencies.
 
 ## 中文
 
-CodexToken 是一个 **本地优先** 的应用。
+QuotaBar 是一个 **本地优先** 的应用。
 
 ### 数据收集
 

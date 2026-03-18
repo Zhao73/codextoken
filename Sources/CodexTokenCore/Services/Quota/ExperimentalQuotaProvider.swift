@@ -33,17 +33,53 @@ public struct DefaultShellCommandRunner: ShellCommandRunning {
         let process = Process()
         let outputPipe = Pipe()
         let errorPipe = Pipe()
+        let group = DispatchGroup()
+        let outputBuffer = LockedDataBuffer()
+        let errorBuffer = LockedDataBuffer()
 
         process.executableURL = URL(fileURLWithPath: "/bin/zsh")
         process.arguments = ["-lc", shellCommand]
         process.standardOutput = outputPipe
         process.standardError = errorPipe
+
+        group.enter()
+        DispatchQueue.global(qos: .userInitiated).async {
+            let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
+            outputBuffer.replace(with: data)
+            group.leave()
+        }
+
+        group.enter()
+        DispatchQueue.global(qos: .userInitiated).async {
+            let data = errorPipe.fileHandleForReading.readDataToEndOfFile()
+            errorBuffer.replace(with: data)
+            group.leave()
+        }
+
         try process.run()
         process.waitUntilExit()
+        group.wait()
 
-        let output = String(decoding: outputPipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
-        let error = String(decoding: errorPipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
+        let output = String(decoding: outputBuffer.data, as: UTF8.self)
+        let error = String(decoding: errorBuffer.data, as: UTF8.self)
         return ShellCommandResult(standardOutput: output, standardError: error, exitCode: process.terminationStatus)
+    }
+}
+
+private final class LockedDataBuffer: @unchecked Sendable {
+    private let lock = NSLock()
+    private var storage = Data()
+
+    func replace(with data: Data) {
+        lock.lock()
+        storage = data
+        lock.unlock()
+    }
+
+    var data: Data {
+        lock.lock()
+        defer { lock.unlock() }
+        return storage
     }
 }
 
@@ -74,6 +110,8 @@ public struct ExperimentalQuotaProvider: QuotaProviding {
 
         do {
             let result = try commandRunner.run(shellCommand: shellCommand)
+            let trimmedOutput = result.standardOutput.trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmedError = result.standardError.trimmingCharacters(in: .whitespacesAndNewlines)
             guard result.exitCode == 0 else {
                 return QuotaSnapshot(
                     status: .error,
@@ -81,13 +119,14 @@ public struct ExperimentalQuotaProvider: QuotaProviding {
                     sourceLabel: "Experimental quota provider",
                     confidence: .low,
                     warnings: ["The external quota command failed."],
-                    errorDescription: result.standardError.trimmingCharacters(in: .whitespacesAndNewlines)
+                    errorDescription: trimmedError.isEmpty ? trimmedOutput : trimmedError
                 )
             }
 
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
-            let payload = try decoder.decode(ExternalQuotaPayload.self, from: Data(result.standardOutput.utf8))
+            let payloadText = trimmedOutput.isEmpty ? trimmedError : trimmedOutput
+            let payload = try decoder.decode(ExternalQuotaPayload.self, from: Data(payloadText.utf8))
             return QuotaSnapshot(
                 status: payload.status,
                 value: payload.value,

@@ -48,21 +48,19 @@ public final class AccountDiscoveryService {
 
         if let activeRecord {
             let activeStorageKey = Self.storageKey(for: activeRecord, fallbackURL: paths.activeAuthFile)
-            if !seenStorageKeys.contains(activeStorageKey) {
-                let account = buildAccount(
-                    record: activeRecord,
-                    storageKey: activeStorageKey,
-                    sourceFile: paths.activeAuthFile,
-                    metadata: metadata[activeStorageKey],
-                    isImportedFromActiveSession: true,
-                    activeRecord: activeRecord
+            let account = buildAccount(
+                record: activeRecord,
+                storageKey: activeStorageKey,
+                sourceFile: paths.activeAuthFile,
+                metadata: metadata[activeStorageKey],
+                isImportedFromActiveSession: true,
+                activeRecord: activeRecord
+            )
+            if !(metadata[activeStorageKey]?.isHidden ?? false) {
+                accountsByStorageKey[activeStorageKey] = Self.preferredAccount(
+                    current: accountsByStorageKey[activeStorageKey],
+                    candidate: account
                 )
-                if !(metadata[activeStorageKey]?.isHidden ?? false) {
-                    accountsByStorageKey[activeStorageKey] = Self.preferredAccount(
-                        current: accountsByStorageKey[activeStorageKey],
-                        candidate: account
-                    )
-                }
             }
         }
 
