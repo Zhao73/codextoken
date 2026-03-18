@@ -111,7 +111,7 @@ struct CodexTokenSettingsView: View {
     }
 
     private func openFeedback() {
-        guard let url = URL(string: "https://github.com/Zhao73/codextoken/issues/new") else { return }
+        guard let url = URL(string: "https://github.com/Zhao73/quotabar/issues/new") else { return }
         NSWorkspace.shared.open(url)
     }
 

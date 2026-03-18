@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  The repository slug stays <code>codextoken</code>. The product brand is <code>QuotaBar</code>.
+  QuotaBar is the public project name for this repository and app.
 </p>
 
 <p align="center">
@@ -89,7 +89,7 @@ QuotaBar turns that into a menu bar workflow that feels deliberate instead of ma
 
 ```bash
 brew install xcodegen
-git clone https://github.com/Zhao73/codextoken.git
+git clone https://github.com/Zhao73/quotabar.git
 cd codextoken
 xcodegen generate
 open CodexToken.xcodeproj
