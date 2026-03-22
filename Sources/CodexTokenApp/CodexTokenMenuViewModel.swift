@@ -628,6 +628,18 @@ final class CodexTokenMenuViewModel: ObservableObject {
         }
     }
 
+    func loginClaude() {
+        do {
+            try terminalLaunchService.launchClaudeLogin()
+            notice = Notice(text: preferences.string("message.claudeLoginStarted"), tone: .info)
+        } catch {
+            notice = Notice(
+                text: localizedMessage(for: error, fallbackKey: "message.claudeLoginFailed"),
+                tone: .error
+            )
+        }
+    }
+
     func handleNoticeAction(_ action: Notice.Action) {
         switch action {
         case .reloginCurrentCLI:

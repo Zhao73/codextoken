@@ -57,6 +57,41 @@ final class TerminalCLILaunchService {
         )
     }
 
+    func launchClaudeLogin() throws {
+        let script = """
+        #!/bin/zsh
+        clear
+        printf '\\e]1;QuotaBar - Claude Login\\a'
+        echo 'QuotaBar — Claude OAuth Login'
+        echo
+        if ! command -v claude >/dev/null 2>&1; then
+            echo 'claude CLI was not found in PATH.'
+            echo 'Install it first: npm install -g @anthropic-ai/claude-code'
+            echo
+            echo 'Press any key to close.'
+            read -k 1
+            exit 1
+        fi
+        echo 'Running: claude login'
+        echo
+        if claude login; then
+            echo
+            echo 'Claude login succeeded. Return to QuotaBar and refresh.'
+            echo
+            exec /bin/zsh -l
+        else
+            status=$?
+            echo
+            echo 'Claude login was cancelled or failed.'
+            exit "$status"
+        fi
+        """
+
+        let scriptURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("codextoken-claude-login.command")
+        try openTerminal(script: script, scriptURL: scriptURL)
+    }
+
     private func launchLoginFlow(
         codexDirectory: URL,
         postLoginScript: String,

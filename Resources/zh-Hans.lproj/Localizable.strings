@@ -175,6 +175,9 @@
 "message.quotaCopied" = "额度摘要已复制到剪贴板。";
 "menu.copyEmail" = "复制邮箱";
 "menu.copyQuota" = "复制额度";
+"menu.loginClaude" = "登录 Claude";
+"message.claudeLoginStarted" = "已在终端中启动 Claude 登录流程。";
+"message.claudeLoginFailed" = "启动 Claude 登录流程失败。";
 "provider.diagnostic.title" = "连接状态";
 "provider.diagnostic.hint" = "请确认已登录此服务。尝试刷新或重新登录以恢复额度数据。";
 "meta.label.authMode" = "认证方式";

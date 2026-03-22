@@ -175,6 +175,9 @@
 "message.quotaCopied" = "Quota summary copied to clipboard.";
 "menu.copyEmail" = "Copy Email";
 "menu.copyQuota" = "Copy Quota";
+"menu.loginClaude" = "Login Claude";
+"message.claudeLoginStarted" = "Claude login started in Terminal.";
+"message.claudeLoginFailed" = "Failed to start Claude login flow.";
 "provider.diagnostic.title" = "Connection Status";
 "provider.diagnostic.hint" = "Ensure you are logged in to this provider. Try refreshing or re-logging in to restore quota data.";
 "meta.label.authMode" = "Auth";

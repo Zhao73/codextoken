@@ -637,8 +637,8 @@ private struct ProviderWorkspaceView: View {
                                         viewModel.refresh()
                                     }
                                     if provider == .claude {
-                                        ActionChip(title: preferences.string("menu.relogin"), systemImage: "person.badge.key", tint: .orange) {
-                                            viewModel.reloginCurrentCLI()
+                                        ActionChip(title: preferences.string("menu.loginClaude"), systemImage: "person.badge.key", tint: .orange) {
+                                            viewModel.loginClaude()
                                         }
                                     }
                                     ActionChip(title: preferences.string("menu.settings"), systemImage: "gearshape", tint: MenuPalette.textSecondary, isNeutral: true) {
