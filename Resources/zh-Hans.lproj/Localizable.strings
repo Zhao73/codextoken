@@ -175,6 +175,8 @@
 "message.quotaCopied" = "额度摘要已复制到剪贴板。";
 "menu.copyEmail" = "复制邮箱";
 "menu.copyQuota" = "复制额度";
+"provider.diagnostic.title" = "连接状态";
+"provider.diagnostic.hint" = "请确认已登录此服务。尝试刷新或重新登录以恢复额度数据。";
 "meta.label.authMode" = "认证方式";
 "meta.label.email" = "邮箱";
 "meta.label.provider" = "提供商";

@@ -24,7 +24,7 @@ struct CodexTokenMenuView: View {
         }
         .padding(12)
         .frame(width: 520)
-        .background(MenuPalette.canvas)
+        .background(.ultraThinMaterial)
         .onAppear {
             viewModel.menuDidAppear()
             viewModel.ensureSelectedAccountIfNeeded()
@@ -546,6 +546,11 @@ private struct ProviderWorkspaceView: View {
     let preferences: AppPreferences
     let openSettings: () -> Void
 
+    private var hasQuotaData: Bool {
+        guard let summary else { return false }
+        return summary.snapshot.primaryWindow != nil || summary.snapshot.secondaryWindow != nil
+    }
+
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 12) {
@@ -581,28 +586,67 @@ private struct ProviderWorkspaceView: View {
                                 .background(MenuPalette.pillFill, in: Capsule())
                             }
 
-                            StatusBadge(text: viewModel.localizedQuotaStatus(summary.snapshot.status), tint: tint)
+                            HStack(spacing: 6) {
+                                StatusBadge(text: viewModel.localizedQuotaStatus(summary.snapshot.status), tint: hasQuotaData ? tint : .orange)
+                                if viewModel.isTokenExpired(for: summary.snapshot) {
+                                    StatusBadge(text: preferences.string("message.needsRelogin"), tint: .red)
+                                }
+                            }
                         }
                     }
 
-                    WindowMetricCard(
-                        title: summary.primaryTitle,
-                        window: summary.snapshot.primaryWindow,
-                        tint: tint,
-                        viewModel: viewModel,
-                        preferences: preferences,
-                        fallbackText: viewModel.localizedQuotaStatus(summary.snapshot.status)
-                    )
-
-                    if let secondaryTitle = summary.secondaryTitle {
+                    if hasQuotaData {
                         WindowMetricCard(
-                            title: secondaryTitle,
-                            window: summary.snapshot.secondaryWindow,
-                            tint: MenuPalette.tealTint,
+                            title: summary.primaryTitle,
+                            window: summary.snapshot.primaryWindow,
+                            tint: tint,
                             viewModel: viewModel,
                             preferences: preferences,
                             fallbackText: viewModel.localizedQuotaStatus(summary.snapshot.status)
                         )
+
+                        if let secondaryTitle = summary.secondaryTitle {
+                            WindowMetricCard(
+                                title: secondaryTitle,
+                                window: summary.snapshot.secondaryWindow,
+                                tint: MenuPalette.tealTint,
+                                viewModel: viewModel,
+                                preferences: preferences,
+                                fallbackText: viewModel.localizedQuotaStatus(summary.snapshot.status)
+                            )
+                        }
+                    } else {
+                        PremiumCard {
+                            VStack(alignment: .leading, spacing: 10) {
+                                SectionHeader(title: preferences.string("provider.diagnostic.title"), eyebrow: summary.title)
+
+                                if let errorDesc = summary.snapshot.errorDescription, !errorDesc.isEmpty {
+                                    Text(errorDesc)
+                                        .font(.system(size: 12.5, weight: .medium))
+                                        .foregroundStyle(.orange)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+
+                                Text(preferences.string("provider.diagnostic.hint"))
+                                    .font(.system(size: 11.5, weight: .regular))
+                                    .foregroundStyle(MenuPalette.textSecondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+
+                                HStack(spacing: 8) {
+                                    ActionChip(title: preferences.string("menu.refresh"), systemImage: "arrow.clockwise", tint: tint) {
+                                        viewModel.refresh()
+                                    }
+                                    if provider == .claude {
+                                        ActionChip(title: preferences.string("menu.relogin"), systemImage: "person.badge.key", tint: .orange) {
+                                            viewModel.reloginCurrentCLI()
+                                        }
+                                    }
+                                    ActionChip(title: preferences.string("menu.settings"), systemImage: "gearshape", tint: MenuPalette.textSecondary, isNeutral: true) {
+                                        openSettings()
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     PremiumCard {
@@ -1117,11 +1161,7 @@ private struct PremiumCard<Content: View>: View {
         .padding(16)
         .background(
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .fill(fill)
-                )
+                .fill(fill)
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                         .stroke(stroke, lineWidth: 0.8)
@@ -1461,21 +1501,21 @@ private struct NoticeView: View {
 
 private enum MenuPalette {
     static let canvas = Color.clear
-    static let softCard = adaptive(light: NSColor.white.withAlphaComponent(0.55), dark: NSColor.white.withAlphaComponent(0.06))
-    static let heroCard = adaptive(light: NSColor.white.withAlphaComponent(0.65), dark: NSColor.white.withAlphaComponent(0.08))
-    static let tabFill = adaptive(light: NSColor.black.withAlphaComponent(0.04), dark: NSColor.white.withAlphaComponent(0.06))
-    static let pillFill = adaptive(light: NSColor.black.withAlphaComponent(0.04), dark: NSColor.white.withAlphaComponent(0.08))
-    static let track = adaptive(light: NSColor.black.withAlphaComponent(0.08), dark: NSColor.white.withAlphaComponent(0.10))
-    static let stroke = adaptive(light: NSColor.black.withAlphaComponent(0.08), dark: NSColor.white.withAlphaComponent(0.12))
-    static let textPrimary = adaptive(light: NSColor(calibratedRed: 0.08, green: 0.09, blue: 0.11, alpha: 1), dark: NSColor(calibratedWhite: 0.97, alpha: 1))
-    static let textSecondary = adaptive(light: NSColor(calibratedRed: 0.35, green: 0.38, blue: 0.43, alpha: 1), dark: NSColor(calibratedWhite: 0.75, alpha: 1))
-    static let textMuted = adaptive(light: NSColor(calibratedRed: 0.52, green: 0.55, blue: 0.60, alpha: 1), dark: NSColor(calibratedWhite: 0.55, alpha: 1))
+    static let softCard = adaptive(light: NSColor.white.withAlphaComponent(0.72), dark: NSColor.white.withAlphaComponent(0.10))
+    static let heroCard = adaptive(light: NSColor.white.withAlphaComponent(0.80), dark: NSColor.white.withAlphaComponent(0.12))
+    static let tabFill = adaptive(light: NSColor.black.withAlphaComponent(0.05), dark: NSColor.white.withAlphaComponent(0.08))
+    static let pillFill = adaptive(light: NSColor.black.withAlphaComponent(0.05), dark: NSColor.white.withAlphaComponent(0.10))
+    static let track = adaptive(light: NSColor.black.withAlphaComponent(0.10), dark: NSColor.white.withAlphaComponent(0.12))
+    static let stroke = adaptive(light: NSColor.black.withAlphaComponent(0.10), dark: NSColor.white.withAlphaComponent(0.15))
+    static let textPrimary = adaptive(light: NSColor(calibratedRed: 0.05, green: 0.05, blue: 0.08, alpha: 1), dark: NSColor(calibratedWhite: 0.97, alpha: 1))
+    static let textSecondary = adaptive(light: NSColor(calibratedRed: 0.28, green: 0.30, blue: 0.35, alpha: 1), dark: NSColor(calibratedWhite: 0.72, alpha: 1))
+    static let textMuted = adaptive(light: NSColor(calibratedRed: 0.45, green: 0.48, blue: 0.52, alpha: 1), dark: NSColor(calibratedWhite: 0.52, alpha: 1))
     static let overviewTint = Color(nsColor: .darkGray)
     static let codexTint = Color(nsColor: NSColor(calibratedRed: 0.17, green: 0.43, blue: 1.0, alpha: 1))
     static let claudeTint = Color(nsColor: NSColor(calibratedRed: 0.87, green: 0.49, blue: 0.29, alpha: 1))
     static let antigravityTint = Color(nsColor: NSColor(calibratedRed: 0.55, green: 0.41, blue: 0.94, alpha: 1))
-    static let antigravitySurface = adaptive(light: NSColor.white.withAlphaComponent(0.45), dark: NSColor.white.withAlphaComponent(0.04))
-    static let antigravityStroke = adaptive(light: NSColor.black.withAlphaComponent(0.08), dark: NSColor.white.withAlphaComponent(0.10))
+    static let antigravitySurface = adaptive(light: NSColor.white.withAlphaComponent(0.60), dark: NSColor.white.withAlphaComponent(0.07))
+    static let antigravityStroke = adaptive(light: NSColor.black.withAlphaComponent(0.10), dark: NSColor.white.withAlphaComponent(0.12))
     static let tealTint = Color(nsColor: NSColor(calibratedRed: 0.16, green: 0.55, blue: 0.55, alpha: 1))
 
     private static func adaptive(light: NSColor, dark: NSColor) -> Color {

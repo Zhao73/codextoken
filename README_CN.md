@@ -2,92 +2,45 @@
   <img src="docs/images/banner.png" width="88" alt="QuotaBar 图标" />
 </p>
 
-<h1 align="center">QuotaBar</h1>
+<h1 align="center">QuotaBar — macOS AI CLI 多账号管理工具</h1>
 
 <p align="center">
-  <strong>一个更精致的 macOS 菜单栏工具，用来管理 Codex CLI 多账号切换、额度窗口和隔离会话。</strong>
-</p>
-
-<p align="center">
-  QuotaBar 现在就是这个项目对外统一使用的名字。
+  <strong>在菜单栏一键切换 Codex、Claude、Antigravity 账号。<br>实时查看额度、过期提醒、隔离会话 —— 全程无需打开终端。</strong>
 </p>
 
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&logoColor=white" alt="English README" /></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-111827?style=for-the-badge&logo=apple&logoColor=white" alt="macOS 14+" />
-  <img src="https://img.shields.io/badge/本地优先-不做云同步-0f766e?style=for-the-badge&logoColor=white" alt="本地优先" />
+  <img src="https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift" />
+  <img src="https://img.shields.io/badge/100%25_本地-无遥测-0f766e?style=for-the-badge" alt="100% 本地" />
 </p>
 
-<p align="center">
-  <img src="docs/images/github-hero.svg" width="100%" alt="QuotaBar 主视觉" />
-</p>
+---
 
-## 为什么它更像一个成品
+## 痛点
 
-Codex CLI 一旦进入多账号场景，体验就很容易退回到手工切文件、靠记忆判断额度、靠临时 shell 隔离环境的状态。
+用 **Codex CLI**、**Claude Code** 或 **Antigravity** 多账号的人都懂：
 
-QuotaBar 想解决的不是“再包一层 UI”，而是把这套真实工作流做成一个更顺手的菜单栏产品：
+- 🔄 手动改 `~/.codex/auth.json` 才能切账号
+- 🤷 不知道哪个号还有额度，撞了限速才发现
+- 💀 Token 过期了没人告诉你，下一条命令直接报错
+- 🧩 想给不同账号开隔离终端？自己写脚本吧
 
-<table>
-<tr>
-<td width="33%" valign="top">
-  <strong>安全切号</strong><br>
-  目标账号会被验证，失败自动回滚，不污染当前 CLI 登录态。
-</td>
-<td width="33%" valign="top">
-  <strong>先看额度再开工</strong><br>
-  5 小时和每周额度窗口放在一起看，过期账号一目了然，切号决策更直接。
-</td>
-<td width="33%" valign="top">
-  <strong>隔离会话</strong><br>
-  每个账号都能打开独立 CLI，会自动准备自己的 <code>CODEX_HOME</code>。
-</td>
-</tr>
-</table>
+## 解决方案
 
-<p align="center">
-  <img src="docs/images/github-features.svg" width="100%" alt="QuotaBar 功能亮点" />
-</p>
+**QuotaBar** 住在菜单栏里，以上全部解决：
 
-## 产品导览
+| | 功能 | 原理 |
+|---|---|---|
+| ⚡ | **一键切号** | 原子交换 + 自动验证 + 失败回滚，不会搞坏当前登录态 |
+| 📊 | **实时额度面板** | Codex、Claude OAuth、Antigravity 三家额度并排看 |
+| 🔔 | **过期提醒** | Token 快到期就提醒，不再「突然断线」 |
+| 🔒 | **隔离会话** | 每个账号独立终端，各自 `CODEX_HOME`，互不干扰 |
+| 📋 | **复制分享** | 一键复制账号邮箱或额度摘要 |
+| 🌍 | **7 种语言** | 英语、简中、繁中、日语、韩语、西班牙语、葡萄牙语 |
+| 🛡️ | **100% 本地** | 零遥测、零云同步、零 Token 中继，密钥永远不出本机 |
 
-<p align="center">
-  <img src="docs/images/menu-bar-real.png" width="680" alt="QuotaBar 真实菜单栏入口" />
-</p>
-
-<p align="center">
-  <em>状态栏入口现在有稳定的 <code>QB</code> 兜底，不会再出现“程序在运行但右上角看不到”的情况。</em>
-</p>
-
-<p align="center">
-  <img src="docs/images/github-localized.svg" width="100%" alt="QuotaBar 中英界面预览" />
-</p>
-
-## 一个地方就能完成的事
-
-- 切换当前 Codex CLI 账号，并带真实验证和失败回滚
-- 保存当前会话，沉淀成可复用账号快照
-- 给账号补备注，避免列表越来越难认
-- 为任意账号启动隔离 CLI 会话
-- 在菜单栏里刷新额度和诊断信息
-- 会话过期或需要重新登录时主动提醒，不再显示莫名其妙的错误
-- 一键重新登录，无需离开 QuotaBar
-- 在设置页集中管理语言、启动页、诊断和本地文件入口
-
-## 内置语言
-
-- English
-- 简体中文
-- 繁體中文
-- 日本語
-- 한국어
-- Español
-- Português (Brasil)
-- 跟随系统
-
-## 安装
-
-> 环境要求：macOS 14+、Xcode、[XcodeGen](https://github.com/yonaskolb/XcodeGen)
+## 快速开始
 
 ```bash
 brew install xcodegen
@@ -97,56 +50,57 @@ xcodegen generate
 open CodexToken.xcodeproj
 ```
 
-按 `⌘R` 即可运行，应用会以菜单栏工具形式启动。
+Xcode 里按 `⌘R`，QuotaBar 出现在菜单栏。
 
-<details>
-<summary><strong>运行测试</strong></summary>
+## 工作原理
 
-```bash
-xcodebuild test \
-  -project CodexToken.xcodeproj \
-  -scheme CodexTokenCore \
-  -destination 'platform=macOS'
+```
+┌────────────────────────────────────────────────────┐
+│  ~/.codex/auth.json          → 当前 CLI 登录态     │
+│  ~/.codex/accounts/*.json    → 已保存的账号快照     │
+│  ~/.claude/.credentials.json → Claude OAuth 凭证   │
+└──────────────┬─────────────────────────────────────┘
+               ▼
+┌──────────────────────────┐
+│     QuotaBar 菜单栏       │
+│                          │
+│  ┌─────┬────────┬──────┐ │
+│  │Codex│ Claude │ Anti │ │
+│  └─────┴────────┴──────┘ │
+│  • 实时额度进度条         │
+│  • 账号切换器             │
+│  • Token 健康监控         │
+│  • 隔离 CLI 启动器        │
+└──────────────────────────┘
 ```
 
-</details>
+**账号切换**是原子操作 —— QuotaBar 用 `codex login status` 验证目标账号，失败自动回滚。
 
-<details>
-<summary><strong>架构与工作流</strong></summary>
+**Token 监控**主动检查 `expiresAt` 和 API 响应，在出问题**之前**就发出警告。
 
-```mermaid
-flowchart LR
-    A["~/.codex/accounts/*.json"] --> B["发现并合并已保存账号"]
-    C["~/.codex/auth.json"] --> B
-    B --> D["QuotaBar 菜单栏主界面"]
-    D --> E["切换当前 CLI 账号"]
-    D --> F["打开隔离 CLI 会话"]
-    D --> G["管理备注与快照"]
-    D --> H["打开设置与诊断"]
-    E --> I["通过 codex login status 验证"]
-    F --> J["按账号准备独立 CODEX_HOME"]
-```
+## 架构
 
-| 层 | 责任 |
+| 层 | 职责 |
 | :--- | :--- |
-| `CodexTokenCore` | 账号发现、元数据持久化、快照导入/删除、CLI 切换、额度 Provider |
-| `CodexTokenApp` | 菜单栏 UI、设置页、本地缓存、备注、Terminal 启动流程 |
-| 本地文件 | `auth.json`、`accounts/*.json`、元数据 JSON、隔离会话配置 |
+| `CodexTokenCore` | 账号发现、CLI 切换（含回滚）、额度提供者（Codex app-server、Claude OAuth、Antigravity API） |
+| `CodexTokenApp` | SwiftUI 菜单栏界面、设置、额度缓存、Terminal 启动服务 |
 
-</details>
+## 隐私与安全
 
-## 隐私
+- **无遥测** —— 没有任何分析 SDK
+- **无云同步** —— 所有数据留在本机
+- **无 Token 中继** —— API 密钥本地读取，绝不传给第三方
+- **原子文件操作** —— 切账号使用原子写入 + 回滚
 
-QuotaBar 默认就是本地优先：
+详见 [PRIVACY.md](PRIVACY.md) 和 [SECURITY.md](SECURITY.md)。
 
-- 不做遥测
-- 不做分析 SDK
-- 不做云端账号同步
-- 不做 token 中转服务
+## 参与贡献
 
-更多说明见 [PRIVACY.md](PRIVACY.md)、[SECURITY.md](SECURITY.md)、[CONTRIBUTING.md](CONTRIBUTING.md)。
+欢迎 PR。详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+---
 
 <p align="center">
-  <strong>QuotaBar</strong> by Zhao73<br>
-  如果它让你的 Codex 多账号工作流更顺手，欢迎点个 Star。
+  <strong>QuotaBar</strong> by <a href="https://github.com/Zhao73">Zhao73</a><br>
+  <sub>如果它帮你省下了一次「怎么又断线了」的抓狂，考虑点个 ⭐</sub>
 </p>

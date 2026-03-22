@@ -2,92 +2,45 @@
   <img src="docs/images/banner.png" width="88" alt="QuotaBar icon" />
 </p>
 
-<h1 align="center">QuotaBar</h1>
+<h1 align="center">QuotaBar — AI CLI Account Manager for macOS</h1>
 
 <p align="center">
-  <strong>A polished macOS menu bar companion for Codex CLI multi-account switching, quota visibility, and isolated sessions.</strong>
-</p>
-
-<p align="center">
-  QuotaBar is the public project name for this repository and app.
+  <strong>Switch between Codex, Claude & Antigravity accounts from your menu bar.<br>See real-time quota, get expiry alerts, launch isolated sessions — all without touching a terminal.</strong>
 </p>
 
 <p align="center">
   <a href="README_CN.md"><img src="https://img.shields.io/badge/中文文档-2563eb?style=for-the-badge&logoColor=white" alt="Chinese README" /></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-111827?style=for-the-badge&logo=apple&logoColor=white" alt="macOS 14+" />
-  <img src="https://img.shields.io/badge/Local--First-No%20Cloud%20Sync-0f766e?style=for-the-badge&logoColor=white" alt="Local first" />
+  <img src="https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift" />
+  <img src="https://img.shields.io/badge/100%25_Local-No_Telemetry-0f766e?style=for-the-badge" alt="100% Local" />
 </p>
 
-<p align="center">
-  <img src="docs/images/github-hero.svg" width="100%" alt="QuotaBar hero" />
-</p>
+---
 
-## Why QuotaBar feels better
+## The Problem
 
-Codex CLI gets awkward as soon as you juggle more than one identity.
+If you use **Codex CLI**, **Claude Code**, or **Antigravity** with multiple accounts, you know the pain:
 
-QuotaBar turns that into a menu bar workflow that feels deliberate instead of manual:
+- 🔄 Manually editing `~/.codex/auth.json` to switch accounts
+- 🤷 No idea which account has quota left until you hit a rate limit
+- 💀 Sessions silently expire — you only find out when your next command fails
+- 🧩 No way to run isolated CLI sessions per-account without scripting it yourself
 
-<table>
-<tr>
-<td width="33%" valign="top">
-  <strong>Switch safely</strong><br>
-  Validate the target account, roll back on failure, and protect the active CLI session.
-</td>
-<td width="33%" valign="top">
-  <strong>Choose by quota</strong><br>
-  Compare 5-hour and weekly windows before you spend the wrong account. See at a glance which accounts need re-login.
-</td>
-<td width="33%" valign="top">
-  <strong>Keep sessions isolated</strong><br>
-  Launch per-account shells with their own <code>CODEX_HOME</code> and copied config.
-</td>
-</tr>
-</table>
+## The Solution
 
-<p align="center">
-  <img src="docs/images/github-features.svg" width="100%" alt="QuotaBar features" />
-</p>
+**QuotaBar** lives in your macOS menu bar and fixes all of this:
 
-## Product tour
+| | Feature | How it works |
+|---|---|---|
+| ⚡ | **One-click account switch** | Swap the active CLI identity with validation and automatic rollback on failure |
+| 📊 | **Live quota dashboard** | See 5-hour and weekly rate limits for Codex, Claude OAuth, and Antigravity side by side |
+| 🔔 | **Expiry alerts** | Get warned before tokens expire — never hit a surprise "not logged in" again |
+| 🔒 | **Isolated sessions** | Launch per-account terminal shells, each with its own `CODEX_HOME` |
+| 📋 | **Copy & share** | One-click copy account email or quota summary to clipboard |
+| 🌍 | **7 languages** | English, 简体中文, 繁體中文, 日本語, 한국어, Español, Português |
+| 🛡️ | **100% local** | Zero telemetry, zero cloud sync, zero token relay. Your keys never leave your machine |
 
-<p align="center">
-  <img src="docs/images/menu-bar-real.png" width="680" alt="QuotaBar real menu bar item" />
-</p>
-
-<p align="center">
-  <em>A visible menu bar entry matters. QuotaBar now keeps a stable <code>QB</code> fallback so the app never feels invisible.</em>
-</p>
-
-<p align="center">
-  <img src="docs/images/github-localized.svg" width="100%" alt="QuotaBar localized interface preview" />
-</p>
-
-## What you can do from one place
-
-- Switch the active Codex CLI account with validation and rollback
-- Save the current session as a reusable snapshot
-- Attach local remarks to every account so names stay recognizable
-- Open isolated CLI sessions for any saved account
-- Refresh quota windows and provider diagnostics without leaving the menu bar
-- Get proactive warnings when sessions expire or need re-login
-- One-click re-login when a token has expired, without leaving QuotaBar
-- Manage language, startup behavior, diagnostics, and account storage from settings
-
-## Built-in languages
-
-- English
-- 简体中文
-- 繁體中文
-- 日本語
-- 한국어
-- Español
-- Português (Brasil)
-- Follow System
-
-## Install
-
-> Requirements: macOS 14+, Xcode, and [XcodeGen](https://github.com/yonaskolb/XcodeGen)
+## Quick Start
 
 ```bash
 brew install xcodegen
@@ -97,7 +50,40 @@ xcodegen generate
 open CodexToken.xcodeproj
 ```
 
-Run the app with `⌘R`. It launches as a menu bar utility.
+Press `⌘R` in Xcode. QuotaBar appears in your menu bar.
+
+## How It Works
+
+```
+┌─────────────────────────────────────────────────────┐
+│  ~/.codex/auth.json          → Active CLI session   │
+│  ~/.codex/accounts/*.json    → Saved account pool   │
+│  ~/.claude/.credentials.json → Claude OAuth tokens  │
+└──────────────┬──────────────────────────────────────┘
+               ▼
+┌──────────────────────────┐
+│     QuotaBar Menu Bar    │
+│                          │
+│  ┌─────┬────────┬──────┐ │
+│  │Codex│ Claude │ Anti │ │
+│  └─────┴────────┴──────┘ │
+│  • Live quota bars       │
+│  • Account switcher      │
+│  • Token health monitor  │
+│  • Isolated CLI launcher │
+└──────────────────────────┘
+```
+
+**Account switching** is atomic — QuotaBar validates the target account with `codex login status` and rolls back automatically if the switch fails.
+
+**Token monitoring** checks `expiresAt` fields and API responses proactively. You see warnings *before* things break, not after.
+
+## Architecture
+
+| Layer | What it does |
+| :--- | :--- |
+| `CodexTokenCore` | Account discovery, CLI switching with rollback, quota providers (Codex app-server, Claude OAuth, Antigravity API) |
+| `CodexTokenApp` | SwiftUI menu bar UI, settings, quota caching, Terminal launch service |
 
 <details>
 <summary><strong>Run tests</strong></summary>
@@ -111,42 +97,22 @@ xcodebuild test \
 
 </details>
 
-<details>
-<summary><strong>Architecture and workflow</strong></summary>
+## Privacy & Security
 
-```mermaid
-flowchart LR
-    A["~/.codex/accounts/*.json"] --> B["Discover and merge saved accounts"]
-    C["~/.codex/auth.json"] --> B
-    B --> D["QuotaBar menu bar surface"]
-    D --> E["Switch active CLI account"]
-    D --> F["Launch isolated CLI session"]
-    D --> G["Edit remarks and snapshots"]
-    D --> H["Open settings and diagnostics"]
-    E --> I["Validate with codex login status"]
-    F --> J["Prepare per-account CODEX_HOME"]
-```
+- **No telemetry** — no analytics SDK, no usage tracking
+- **No cloud sync** — all data stays on your Mac
+- **No token relay** — API keys are read locally, never transmitted to third parties
+- **Atomic file operations** — account switches use atomic writes with rollback
 
-| Layer | Responsibility |
-| :--- | :--- |
-| `CodexTokenCore` | Account discovery, metadata persistence, snapshot import/removal, CLI switching, quota providers |
-| `CodexTokenApp` | Menu bar UI, settings, local caches, remarks, Terminal launch flows |
-| Local files | `auth.json`, `accounts/*.json`, metadata JSON, isolated session config |
+See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md) for details.
 
-</details>
+## Contributing
 
-## Privacy
+PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-QuotaBar is local-first by default.
-
-- No telemetry
-- No analytics SDK
-- No cloud account sync
-- No token relay service
-
-See [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), and [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+---
 
 <p align="center">
-  <strong>QuotaBar</strong> by Zhao73<br>
-  If it makes your Codex workflow calmer and faster, consider starring the repo.
+  <strong>QuotaBar</strong> by <a href="https://github.com/Zhao73">Zhao73</a><br>
+  <sub>If this saves you from one more "not logged in" surprise, consider giving it a ⭐</sub>
 </p>

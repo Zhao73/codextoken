@@ -175,6 +175,8 @@
 "message.quotaCopied" = "Quota summary copied to clipboard.";
 "menu.copyEmail" = "Copy Email";
 "menu.copyQuota" = "Copy Quota";
+"provider.diagnostic.title" = "Connection Status";
+"provider.diagnostic.hint" = "Ensure you are logged in to this provider. Try refreshing or re-logging in to restore quota data.";
 "meta.label.authMode" = "Auth";
 "meta.label.email" = "Email";
 "meta.label.provider" = "Provider";
